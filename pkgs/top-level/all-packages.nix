@@ -8247,6 +8247,8 @@ let
 
   lmms = callPackage ../applications/audio/lmms { };
 
+  lxappearance = callPackage ../applications/misc/lxappearance { };
+
   lxdvdrip = callPackage ../applications/video/lxdvdrip { };
 
   lynx = callPackage ../applications/networking/browsers/lynx { };
