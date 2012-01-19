@@ -3897,6 +3897,10 @@ let
 
   caelum = callPackage ../development/libraries/caelum { };
 
+  cairoclock = callPackage ../applications/misc/cairoclock {
+    inherit (gnome) libglade;
+  };
+
   scmccid = callPackage ../development/libraries/scmccid { };
 
   ccrtp = callPackage ../development/libraries/ccrtp { };
