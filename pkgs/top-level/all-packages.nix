@@ -3162,6 +3162,11 @@ let
   love = callPackage ../development/interpreters/love {};
 
   lua4 = callPackage ../development/interpreters/lua-4 { };
+
+  tolua = callPackage ../development/libraries/tolua { 
+    lua = lua5;
+  };
+
   lua5_0 = callPackage ../development/interpreters/lua-5/5.0.3.nix { };
   lua5_1 = callPackage ../development/interpreters/lua-5/5.1.nix { };
   lua5_2 = callPackage ../development/interpreters/lua-5/5.2.nix { };
