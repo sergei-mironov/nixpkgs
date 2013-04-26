@@ -10328,6 +10328,7 @@ let
     in {
       gcc = pkgsCross.gccCrossStageStatic;
       binutils = pkgsCross.binutilsCross;
+      gdb = pkgsCross.gdbCross;
     };
 
   cross_toolchain_stage_final = cs :
@@ -10343,14 +10344,21 @@ let
     };
 
   i386_toolchain = cross_toolchain_stage_static {
-    config = "i386-unknown-elf";
+    config = "i386-none-elf";
     arch = "i386";
     libc = null;
     platform = {};
   };
 
+  avr_toolchain = cross_toolchain_stage_static {
+    config = "avr-none-elf";
+    arch = "avr";
+    libc = null;
+    platform = {};
+  };
+
   arm_toolchain = cross_toolchain_stage_static {
-    config = "arm-unknown-linux-gnueabi";  
+    config = "arm-none-linux-gnueabi";  
     bigEndian = false;
     arch = "arm";
     float = "soft";
@@ -10360,7 +10368,7 @@ let
   };
 
   arm_toolchain_bare = cross_toolchain_stage_static {
-    config = "arm-eabi";  
+    config = "arm-none-eabi";  
     bigEndian = false;
     arch = "arm";
     float = "soft";
@@ -10371,7 +10379,7 @@ let
 
 
   arm_toolchain_final = cross_toolchain_stage_final {
-    config = "arm-unknown-linux-gnueabi";  
+    config = "arm-none-linux-gnueabi";  
     bigEndian = false;
     arch = "arm";
     float = "soft";
