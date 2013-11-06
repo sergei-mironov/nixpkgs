@@ -1,13 +1,19 @@
-{ stdenv, fetchurl, file, openssl, mlton, mysql, postgresql, sqlite }:
+{ stdenv, fetchurl, fetchhg, file, openssl, mlton, mysql, postgresql, sqlite }:
 
 stdenv.mkDerivation rec {
   pname = "urweb";
   version = "20130421";
   name = "${pname}-${version}";
 
-  src = fetchurl {
-    url = "http://www.impredicative.com/ur/${name}.tgz";
-    sha256 = "1dglcial9bzximw778wbfqx99khy34qpf9gw4bbncn9f742ji872";
+  # src = fetchurl {
+  #   url = "http://www.impredicative.com/ur/${name}.tgz";
+  #   sha256 = "1dglcial9bzximw778wbfqx99khy34qpf9gw4bbncn9f742ji872";
+  # };
+
+  src = fetchhg {
+    url = http://hg.impredicative.com/urweb;
+    tag = "5f478ecf65e4";
+    sha256 = "120dpnwbhyq77yk0b00gpjyj7ig62pdkxyn866lz5qmfb3xdvv15";
   };
 
   buildInputs = [ stdenv.gcc file openssl mlton mysql postgresql sqlite ];
