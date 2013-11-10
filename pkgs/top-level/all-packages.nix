@@ -1421,6 +1421,8 @@ let
 
   npth = callPackage ../development/libraries/npth {};
 
+  "nix-dev" = callPackage ../build-support/nix-dev {};
+
   nmap = callPackage ../tools/security/nmap {
     inherit (pythonPackages) pysqlite;
   };
