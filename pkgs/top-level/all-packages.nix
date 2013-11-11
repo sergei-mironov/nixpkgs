@@ -7875,6 +7875,12 @@ let
 
   firefoxWrapper = wrapFirefox { browser = firefoxPkgs.firefox; };
 
+  # Language is a two-letter country code (with several exceptions for "en-GB" ,
+  # "en-US", etc.)
+  firefoxLocaleWrapper = language : callPackage ../applications/networking/browsers/firefox/localeWrapper.nix {
+    inherit language;
+  };
+
   flac = callPackage ../applications/audio/flac { };
 
   flashplayer = callPackage ../applications/networking/browsers/mozilla-plugins/flashplayer-11 {
