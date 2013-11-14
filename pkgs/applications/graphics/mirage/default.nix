@@ -17,7 +17,9 @@ buildPythonPackage rec {
 
     buildInputs = [ stdenv libX11 gettext ];
 
-    patchPhase = ''
+    patches = [ ./ru-locale.patch ];
+
+    configurePhase = ''
       sed -i "s@/usr/local/share/locale@$out/share/locale@" mirage.py
     '';
 
