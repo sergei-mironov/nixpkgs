@@ -1,0 +1,37 @@
+diff -ru xfce4-xkb-plugin-0.5.4.3.orig/panel-plugin/xfce4-xkb-plugin.c xfce4-xkb-plugin-0.5.4.3/panel-plugin/xfce4-xkb-plugin.c
+--- xfce4-xkb-plugin-0.5.4.3.orig/panel-plugin/xfce4-xkb-plugin.c	2013-11-15 10:37:46.872278045 +0000
++++ xfce4-xkb-plugin-0.5.4.3/panel-plugin/xfce4-xkb-plugin.c	2013-11-15 10:46:48.920530850 +0000
+@@ -339,8 +339,8 @@
+     switch (orientation)
+     {
+         case GTK_ORIENTATION_HORIZONTAL:
+-            xkb->vsize = panel_size;
+-            xkb->hsize = (int) (1.33 * panel_size);
++            xkb->vsize = (int) (0.75* panel_size);
++            xkb->hsize = (int) (0.9 * panel_size);
+             gtk_widget_set_size_request (xkb->btn, xkb->hsize, xkb->vsize);
+             break;
+         case GTK_ORIENTATION_VERTICAL:
+diff -ru xfce4-xkb-plugin-0.5.4.3.orig/panel-plugin/xkb-util.c xfce4-xkb-plugin-0.5.4.3/panel-plugin/xkb-util.c
+--- xfce4-xkb-plugin-0.5.4.3.orig/panel-plugin/xkb-util.c	2013-11-15 10:37:46.872278045 +0000
++++ xfce4-xkb-plugin-0.5.4.3/panel-plugin/xkb-util.c	2013-11-15 10:48:58.507311250 +0000
+@@ -33,12 +33,18 @@
+ gchar*
+ xkb_util_get_flag_filename (const gchar* group_name)
+ {
++    gchar* group_name_;
+     gchar* filename;
+ 
+     if (!group_name)
+         return NULL;
+ 
+-    filename = g_strconcat (FLAGSDIR, "/", group_name, ".svg", NULL);
++    if(strcmp(group_name,"us") == 0)
++        group_name_ = "gb";
++    else
++        group_name_ = group_name;
++
++    filename = g_strconcat (FLAGSDIR, "/", group_name_, ".svg", NULL);
+ 
+     return filename;
+ }

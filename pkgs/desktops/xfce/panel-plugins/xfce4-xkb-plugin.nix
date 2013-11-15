@@ -14,6 +14,8 @@ stdenv.mkDerivation rec {
     sha256 = "0v9r0w9m5lxrzmz12f8w67l781lsywy9p1vixgn4xq6z5sxh2j6a";
   };
 
+  patches = [ ./xfce4-xkb.patch ];
+
   buildInputs = [ pkgconfig intltool libxfce4util libxfce4ui xfce4panel gtk
     libxklavier librsvg libwnck ];
 
