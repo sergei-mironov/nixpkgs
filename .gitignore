@@ -8,3 +8,5 @@ doc/NEWS.txt
 doc/manual.html
 doc/manual.pdf
 .version-suffix
+*sasl_passwd.nix
+*.patch
