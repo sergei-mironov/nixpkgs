@@ -62,6 +62,7 @@ let
       xserver-command = ${xserverWrapper}
       session-wrapper = ${dmcfg.session.script}
       greeter-session = ${cfg.greeter.name}
+      ${cfg.extraConfig}
     '';
 
 in
@@ -72,6 +73,13 @@ in
         default = false;
         description = ''
           Whether to enable lightdm as the display manager.
+        '';
+      };
+
+      extraConfig = mkOption {
+        default = "";
+        description = ''
+          Extra lines to add to lightdm.conf.
         '';
       };
 

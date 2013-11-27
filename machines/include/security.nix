@@ -29,6 +29,8 @@
         ++ pkgs.lib.optional hasnm "networkmanager"
         ++ pkgs.lib.optional hasvb "vboxusers";
       home = "/home/galtimir";
+      isSystemUser = false;
+      useDefaultShell = true;
     };
   };
 }

@@ -27,7 +27,7 @@
 
   boot.extraKernelParams = [
     # SSD-friendly
-    #"elevator=noop"
+    "elevator=noop"
   ];
 
   boot.loader.grub = {
@@ -42,7 +42,7 @@
 
   networking = {
     hostName = "goodfellow";
-    #networkmanager.enable = true;
+    networkmanager.enable = true;
   };
 
   fileSystems."/" =
@@ -83,8 +83,8 @@
 
   services.xserver = {
     enable = true;
-    layout = "us,ru";
-    xkbOptions = "eurosign:e, grp:alt_space_toggle, ctrl:swapcaps, grp_led:caps, ctrl:nocaps";
+    layout = "ru,us";
+    xkbOptions = "eurosign:e, grp:alt_shift_toggle, grp_led:caps";
     exportConfiguration = true;
     startOpenSSHAgent = true;
     synaptics = {
@@ -99,24 +99,20 @@
     desktopManager.xfce.enable = true;
 
     displayManager = {
-      # slim = {
-      #   enable = true;
-      #   defaultUser = "ierton";
-      # };
-
-      lightdm = {
+      slim = {
         enable = true;
-
-        # extraConfig = ''
-        #   [XDMCPServer]
-        #   enabled=true
-        #   port=177
-        #   key=1234567
-        #   [VNCServer]
-        #   enabled=true
-        #   command=${pkgs.x11vnc}/bin/x11vnc
-        # '';
+        defaultUser = "galtimir";
+        autoLogin = true;
       };
+
+      #lightdm = {
+      #  enable = true;
+
+      #  extraConfig = ''
+      #    autologin-user=galtimir
+      #    autologin-user-timeout=1
+      #  '';
+      #};
     };
 
     videoDrivers = [ "intel" "vesa" ];
@@ -153,6 +149,10 @@
     easytag
     gqview
     gimp_2_8
+    mirage
+    xfce.xfce4_xkb_plugin
+    networkmanagerapplet
+    imagemagick
   ];
 
   nixpkgs.config = {
