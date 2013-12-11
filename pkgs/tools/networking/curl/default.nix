@@ -4,12 +4,15 @@
 , scpSupport ? false, libssh2 ? null
 , gssSupport ? false, gss ? null
 , c-aresSupport ? false, c-ares ? null
+, cacertSupport ? false, cacert ? null
 }:
 
 assert zlibSupport -> zlib != null;
 assert sslSupport -> openssl != null;
 assert scpSupport -> libssh2 != null;
 assert c-aresSupport -> c-ares != null;
+assert cacertSupport -> cacert != null;
+
 
 stdenv.mkDerivation rec {
   name = "curl-7.42.1";
@@ -45,7 +48,9 @@ stdenv.mkDerivation rec {
       ( if scpSupport then "--with-libssh2=${libssh2}" else "--without-libssh2" )
     ]
     ++ stdenv.lib.optional c-aresSupport "--enable-ares=${c-ares}"
-    ++ stdenv.lib.optional gssSupport "--with-gssapi=${gss}";
+    ++ stdenv.lib.optional gssSupport "--with-gssapi=${gss}"
+    ++ stdenv.lib.optional cacertSupport [ "--with-ca-bundle=${cacert}/etc/ca-bundle.crt" ]
+  ;
 
   CXX = "g++";
   CXXCPP = "g++ -E";
