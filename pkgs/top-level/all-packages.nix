@@ -11424,6 +11424,8 @@ let
 
   shntool = callPackage ../applications/audio/shntool { };
 
+  sipp = callPackage ../development/tools/misc/sipp { };
+
   sonic-visualiser = callPackage ../applications/audio/sonic-visualiser {
     inherit (pkgs.vamp) vampSDK;
     inherit (pkgs.xlibs) libX11;
