@@ -37,6 +37,19 @@ rec {
   writeScript = name: text: writeTextFile {inherit name text; executable = true;};
   writeScriptBin = name: text: writeTextFile {inherit name text; executable = true; destination = "/bin/${name}";};
 
+  # Syntax check and deploy the shell script named @hint containing @text.
+  # Script should be written in pure sh
+  writeShellScript = hint : text : let
+    s = writeScript (hint+"-unchecked") ''
+      #!/bin/sh
+      ${text}
+    '';
+  in
+    runCommand hint {} ''
+      # Syntax check the script
+      /bin/sh -n ${s}
+      cp ${s} $out
+    '';
 
   # Create a forest of symlinks to the files in `paths'.
   symlinkJoin = name: paths:
