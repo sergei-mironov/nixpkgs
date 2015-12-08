@@ -13245,7 +13245,9 @@ let
     inherit (pkgs.vamp) vampSDK;
   };
 
-  sox = callPackage ../applications/misc/audio/sox { };
+  sox = callPackage ../applications/misc/audio/sox {
+    enableLame = config.sox.enableLame or false;
+  };
 
   soxr = callPackage ../applications/misc/audio/soxr { };
 
