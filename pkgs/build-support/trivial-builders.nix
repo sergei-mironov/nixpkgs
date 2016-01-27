@@ -46,6 +46,18 @@ rec {
   writeScript = name: text: writeTextFile {inherit name text; executable = true;};
   writeScriptBin = name: text: writeTextFile {inherit name text; executable = true; destination = "/bin/${name}";};
 
+  # Create a Shell script, check its syntax
+  writeShellScriptBin = name : text :
+    let
+      s = writeScriptBin name ''
+        #!${stdenv.shell}
+        ${text}
+      '';
+    in
+      runCommand name {} ''
+        ${stdenv.shell} -n ${s}/bin/${name}
+        cp -v -r ${s} $out
+      '';
 
   # Create a forest of symlinks to the files in `paths'.
   symlinkJoin =
