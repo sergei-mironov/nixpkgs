@@ -12305,6 +12305,9 @@ in
 
   go-ethereum = self.altcoins.go-ethereum;
 
+  ethereum = recurseIntoAttrs ( callPackage ../applications/altcoins/ethereum {} );
+  geth = ethereum.geth;
+
   aumix = callPackage ../applications/audio/aumix {
     gtkGUI = false;
   };
