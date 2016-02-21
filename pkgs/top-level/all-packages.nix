@@ -11146,6 +11146,9 @@ let
   bitcoin = altcoins.bitcoin;
   bitcoin-xt = altcoins.bitcoin-xt;
 
+  ethereum = recurseIntoAttrs ( callPackage ../applications/altcoins/ethereum {} );
+  geth = ethereum.geth;
+
   aumix = callPackage ../applications/audio/aumix {
     gtkGUI = false;
   };
