@@ -286,7 +286,7 @@
   sjmackenzie = "Stewart Mackenzie <setori88@gmail.com>";
   sjourdois = "Stéphane ‘kwisatz’ Jourdois <sjourdois@gmail.com>";
   skeidel = "Sven Keidel <svenkeidel@gmail.com>";
-  smironov = "Sergey Mironov <ierton@gmail.com>";
+  smironov = "Sergey Mironov <grrwlf@gmail.com>";
   spacefrogg = "Michael Raitza <spacefrogg-nixos@meterriblecrew.net>";
   spencerjanssen = "Spencer Janssen <spencerjanssen@gmail.com>";
   sprock = "Roger Mason <rmason@mun.ca>";
