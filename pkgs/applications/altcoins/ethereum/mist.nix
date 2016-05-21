@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
 
   icon = fetchurl {
     url = "https://raw.githubusercontent.com/ethereum/mist/master/icons/wallet/icon.png";
-    sha256 = "127yznh6f35wxcgbrkk5kim6py284z34rm0mb08qk0ff0akjk77z";
+    sha256 = "0flyrzy43vxn1gp5qpaiyvhsac588sqgnlpqd13gdr2pay3l5xaz";
   };
 
   phases = [ "unpackPhase" "installPhase" ];
