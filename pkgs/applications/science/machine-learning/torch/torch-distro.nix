@@ -85,6 +85,52 @@ let
         '';
       });
 
+    torch-setup = { buildInputs ? []
+                , runtimeDeps ? [] ,  ... }@args :
+      let
+
+        luadeps = [ trepl xlua ];
+
+        luadeps_ =
+          luadeps ++
+          (lib.concatMap (d : if d ? luadeps then d.luadeps else []) luadeps);
+
+        runtimeDeps_ =
+          runtimeDeps ++
+          (lib.concatMap (d : if d ? runtimeDeps then d.runtimeDeps else []) luadeps) ++
+          [ lua coreutils ];
+
+      in
+      stdenv.mkDerivation (args // rec {
+        name = "torch-setup";
+        buildCommand = ''
+          export LUAROCKS_CONFIG=config.lua
+          cat >config.lua <<EOF
+            rocks_trees = {
+                 { name = [[system]], root = [[${luarocks}]] }
+               ${lib.concatImapStrings (i : dep :  ", { name = [[dep${toString i}]], root = [[${dep}]] }") luadeps_}
+            };
+
+            variables = {
+              LUA_BINDIR = "$out/bin";
+              LUA_INCDIR = "$out/include";
+              LUA_LIBDIR = "$out/lib/lua/${lua.luaversion}";
+            };
+          EOF
+          eval "`${luarocks}/bin/luarocks --deps-mode=all --tree=$out path`"
+          mkdir -pv $out/bin
+          touch $out/bin/torch-setup
+          chmod +x $out/bin/torch-setup
+          cat >$out/bin/torch-setup <<EOF
+          #!/bin/sh
+          export LD_LIBRARY_PATH="${lib.makeSearchPath "lib" runtimeDeps_}:\$LD_LIBRARY_PATH"
+          export PATH="${lib.makeSearchPath "bin" runtimeDeps_}:\$PATH"
+          export LUA_PATH="$LUA_PATH"
+          export LUA_CPATH="$LUA_CPATH"
+          EOF
+        '';
+      });
+
     # FIXME: doesn't installs lua-files for some reason
     # lua-cjson = buildLuaPackage {
     #   name = "lua-cjson";
