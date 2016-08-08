@@ -1,25 +1,39 @@
-{ stdenv, lib, buildGoPackage, fetchFromGitHub }:
+{ stdenv, fetchgit, go }:
 
-buildGoPackage rec {
-  name = "syncthing-${version}";
+stdenv.mkDerivation rec {
   version = "0.12.15";
-  rev = "v${version}";
+  name = "syncthing-${version}";
 
-  buildFlags = "--tags noupgrade,release";
-  
-  goPackagePath = "github.com/syncthing/syncthing";
-
-  src = fetchFromGitHub {
-    inherit rev;
-    owner = "syncthing";
-    repo = "syncthing";
+  src = fetchgit {
+    url = https://github.com/syncthing/syncthing;
+    rev = "refs/tags/v${version}";
     sha256 = "0g4sj509h45iq6g7b0pl88rbbn7c7s01774yjc6bl376x1xrl6a1";
   };
 
-  goDeps = ./deps.nix;
+  # Upstream:  goDeps = ./deps.nix;
+  buildInputs = [ go ];
 
-  postPatch = ''
-    # Mostly a cosmetic change
-    sed -i 's,unknown-dev,${version},g' cmd/syncthing/main.go
+  buildPhase = ''
+    mkdir -p src/github.com/syncthing
+    ln -s $(pwd) src/github.com/syncthing/syncthing
+    export GOPATH=$(pwd)
+
+    # Syncthing's build.go script expects this working directory
+    cd src/github.com/syncthing/syncthing
+
+    go run build.go -no-upgrade -version v${version} install
   '';
+
+  installPhase = ''
+    mkdir -p $out/bin
+    cp bin/* $out/bin
+  '';
+
+  meta = {
+    homepage = https://www.syncthing.net/;
+    description = "Open Source Continuous File Synchronization";
+    license = stdenv.lib.licenses.mpl20;
+    maintainers = with stdenv.lib.maintainers; [pshendry];
+    platforms = with stdenv.lib.platforms; linux ++ freebsd ++ openbsd ++ netbsd;
+  };
 }
