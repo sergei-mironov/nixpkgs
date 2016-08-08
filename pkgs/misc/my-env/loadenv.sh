@@ -1,4 +1,4 @@
-#!@shell@
+#!@shell1@
 
 OLDPATH="$PATH"
 OLDTZ="$TZ"
