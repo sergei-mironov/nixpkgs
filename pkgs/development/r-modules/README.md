@@ -53,3 +53,17 @@ nix-build test-evaluation.nix --dry-run
 
 If this exits fine, the expression is ok. If not, you have to edit `default.nix`
 
+
+## Build errors due to missing OpenSSL/ZLib/etc
+
+At some point, Nix split many packages into \*-dev, \*-man and \*-out (default)
+subderivations. `r-modules/default.nix` probably should be changed accordingly.
+
+from:
+
+    git2r = [ pkgs.zlib pkgs.openssl ];
+
+to:
+
+    git2r = [ pkgs.zlib pkgs.openssl.dev ];
+
