@@ -31269,6 +31269,89 @@ EOF
     propagatedBuildInputs = with self; [ websocket_client requests2 ];
   };
 
+  cymem = buildPythonPackage rec {
+    name = "cymem-${version}";
+    version = "1.31.2";
+
+    src = pkgs.fetchgit {
+      url = "https://github.com/explosion/cymem";
+      rev = "e32d82a";
+      sha256 = "0miznr4kbdzw8yik3m96jmrlmln4qv7z3i3qdp7wjqr51zpqfm1k";
+    };
+
+    doCheck = false;
+
+    buildInputs = with self; [ cython ];
+  };
+
+
+  preshed = buildPythonPackage rec {
+    name = "preshed-${version}";
+    version = "0.46.4";
+
+    src = pkgs.fetchgit {
+      url = "https://github.com/explosion/preshed";
+      rev = "b66f9007f44097219ff136d68f0";
+      sha256 = "1j4iwb8pndljwc9qc9fqginnf07wb5hm8daw8mq3pxh2xzwzhana";
+    };
+
+    doCheck = false;
+
+    buildInputs = with self; [ cython cymem ];
+  };
+
+  thinc = buildPythonPackage rec {
+    name = "thinc-${version}";
+    version = "5.0.8";
+
+    src = pkgs.fetchgit {
+      url = "https://github.com/explosion/thinc";
+      rev= "64496f9";
+      sha256 = "13b8lng5ldy96wh4pffh0hslawkjad1ls3ph2sw72dn8zqdz9s2z";
+    };
+
+    doCheck = false;
+
+    buildInputs = with self; [ cython numpy preshed cymem hypothesis murmurhash ];
+
+    # propagatedBuildInputs = with self; [ six ];
+  };
+
+  murmurhash = buildPythonPackage rec {
+    name = "murmurhash-${version}";
+    version = "0.26.4";
+
+    src = pkgs.fetchgit {
+      url = "https://github.com/explosion/murmurhash";
+      rev= "fd71362";
+      sha256 = "0n2j0glhlv2yh3fjgbg4d79j1c1fpchgjd4vnpw908l9mzchhmdv";
+    };
+
+    doCheck = false;
+
+    buildInputs = with self; [ cython ];
+
+    # propagatedBuildInputs = with self; [ six ];
+  };
+
+  spacy = buildPythonPackage rec {
+    name = "spacy-${version}";
+    version = "1.2.0";
+
+    src = pkgs.fetchgit {
+      url = "https://github.com/explosion/spaCy";
+      rev= "8f9f084";
+      sha256 = "185phgm3p2q4dwnznf3ppav1sa6g1lvi97sswsry3z68wx1gmnrc";
+    };
+
+    doCheck = false;
+
+    buildInputs = with self; [ virtualenv pip thinc preshed cymem cython
+    murmurhash cymem cython];
+
+    # propagatedBuildInputs = with self; [ six ];
+  };
+
   tempora = buildPythonPackage rec {
     name = "tempora-${version}";
     version = "1.4";
