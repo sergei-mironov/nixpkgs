@@ -4465,6 +4465,33 @@ in {
     };
   };
 
+  cython023 = buildPythonPackage rec {
+    name = "Cython-${version}";
+    version = "0.23";
+
+    src = pkgs.fetchurl {
+      url = "mirror://pypi/C/Cython/${name}.tar.gz";
+      sha256 = "1p23sgcrnamsgaz1ya5ics79z7sxdyqqxb8i0jxb6ky2061ixl4z";
+    };
+
+    buildInputs = with self; [ pkgs.pkgconfig pkgs.gdb ];
+    # For testing
+    nativeBuildInputs = with self; [ numpy pkgs.ncurses ];
+
+    checkPhase = ''
+      export HOME="$NIX_BUILD_TOP"
+      ${python.interpreter} runtests.py
+    '';
+
+    meta = {
+      description = "An optimising static compiler for both the Python programming language and the extended Cython programming language";
+      platforms = platforms.all;
+      homepage = http://cython.org;
+      license = licenses.asl20;
+      maintainers = with maintainers; [ fridh ];
+    };
+  };
+
   cytoolz = buildPythonPackage rec {
     name = "cytoolz-${version}";
     version = "0.8.2";
@@ -31281,7 +31308,7 @@ EOF
 
     doCheck = false;
 
-    buildInputs = with self; [ cython ];
+    buildInputs = with self; [ cython023 ];
   };
 
 
@@ -31297,7 +31324,7 @@ EOF
 
     doCheck = false;
 
-    buildInputs = with self; [ cython cymem ];
+    buildInputs = with self; [ cython023 cymem ];
   };
 
   thinc = buildPythonPackage rec {
@@ -31312,7 +31339,7 @@ EOF
 
     doCheck = false;
 
-    buildInputs = with self; [ cython numpy preshed cymem hypothesis murmurhash ];
+    buildInputs = with self; [ cython023 numpy preshed cymem hypothesis murmurhash ];
 
     # propagatedBuildInputs = with self; [ six ];
   };
@@ -31329,7 +31356,7 @@ EOF
 
     doCheck = false;
 
-    buildInputs = with self; [ cython ];
+    buildInputs = with self; [ cython023 ];
 
     # propagatedBuildInputs = with self; [ six ];
   };
@@ -31346,8 +31373,8 @@ EOF
 
     doCheck = false;
 
-    buildInputs = with self; [ virtualenv pip thinc preshed cymem cython
-    murmurhash cymem cython];
+    buildInputs = with self; [ virtualenv pip thinc preshed cymem 
+    murmurhash cymem cython023];
 
     # propagatedBuildInputs = with self; [ six ];
   };
