@@ -1,6 +1,6 @@
 { luarocks, lib , stdenv,  writeText , readline,  makeWrapper,
-  less, ncurses, cmake, openblas, coreutils, fetchgit, libuuid, czmq, openssl,
-  gnuplot, fetchurl, lua, src, libjpeg, libpng
+  less, ncurses, cmake, openblasCompat, coreutils, fetchgit, libuuid, czmq, openssl,
+  gnuplot, fetchurl, lua, src, libjpeg, libpng, liblapack
 } :
 
 let
@@ -194,7 +194,7 @@ let
       name = "torch";
       src = "${distro_src}/pkg/torch";
       luadeps = [ paths cwrap ];
-      buildInputs = [ cmake ];
+      buildInputs = [ cmake openblasCompat liblapack ];
       rockspec = "rocks/torch-scm-1.rockspec";
       preBuild = ''
         substituteInPlace ${rockspec} \
