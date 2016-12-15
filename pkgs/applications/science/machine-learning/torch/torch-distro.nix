@@ -1,6 +1,6 @@
 { luarocks, lib , stdenv,  writeText , readline,  makeWrapper,
   less, ncurses, cmake, openblasCompat, coreutils, fetchgit, libuuid, czmq, openssl,
-  gnuplot, fetchurl, lua, src, libjpeg, libpng, liblapack
+  gnuplot, fetchurl, lua, src, libjpeg, libpng, liblapack, qt4
 } :
 
 let
@@ -26,7 +26,7 @@ let
 
     buildLuaRocks = { rockspec ? "", luadeps ? [] , buildInputs ? []
                     , preBuild ? "" , postInstall ? ""
-                    , runtimeDeps ? [] ,  ... }@args :
+                    , runtimeDeps ? [] ,  cfg ? "", ... }@args :
       let
 
         luadeps_ =
@@ -50,6 +50,7 @@ let
               LUA_BINDIR = "$out/bin";
               LUA_INCDIR = "$out/include";
               LUA_LIBDIR = "$out/lib/lua/${lua.luaversion}";
+              ${cfg}
             };
           EOF
         '';
@@ -323,6 +324,54 @@ let
       meta = common_meta // {
         description = "A pure Lua REPL for Lua(JIT), with heavy support for Torch types.";
       };
+    };
+
+    qtlua =  buildLuaRocks rec {
+      name = "qtlua";
+      luadeps = [torch trepl];
+      buildInputs = [cmake qt4];
+      src = "${distro_src}/exe/qtlua";
+      rockspec = "rocks/qtlua-scm-1.rockspec";
+
+      # FIXME: remove explicit luajit reference
+      cfg = "LUALIB = \"${lua}/lib/libluajit-5.1.so\";";
+    };
+
+    # FIXME broken
+    camera = buildLuaRocks rec {
+      name = "camera";
+      src = fetchgit {
+        url = "https://github.com/clementfarabet/lua---camera";
+        rev = "b6e7257";
+        sha256 = "14akgb15mv2sp6jl2v41c91d7sq15c62d56bi1dhrx9jwa97lk7c";
+      };
+      buildInputs = [cmake];
+      luadeps = [torch sys xlua];
+      rockspec = "camera-1.0-0.rockspec";
+      preBuild = ''
+        export Torch_DIR=${torch}/share/cmake/torch
+        sed -i 's@LUAROCKS_PREFIX = "$(PREFIX)"@@' $rockspec
+        cat $rockspec
+      '';
+    };
+
+    # FIXME broken
+    qttorch = buildLuaRocks rec {
+      name = "qttorch";
+      luadeps = [torch trepl qtlua];
+      buildInputs = [cmake qt4 qtlua];
+      src = "${distro_src}/pkg/qttorch";
+      rockspec = "rocks/qttorch-scm-1.rockspec";
+      meta = common_meta // {
+        description = "A pure Lua REPL for Lua(JIT), with heavy support for Torch types.";
+      };
+      cfg = "C_INCLUDE_PATH = \"${qtlua}/include/qtlua\";";
+
+      preBuild = ''
+        cp ${qtlua}/include/qtlua/* .
+        export Torch_DIR=${torch}/share/cmake/torch
+        export cmakeFlags="-I${qtlua}/include/qtlua"
+      '';
     };
 
     lbase64 = buildLuaRocks rec {
