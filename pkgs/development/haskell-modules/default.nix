@@ -76,7 +76,7 @@ let
     in
       import ./hackage-packages.nix { inherit pkgs stdenv callPackage; } self // {
 
-        inherit mkDerivation callPackage;
+        inherit mkDerivation callPackage callPackageWithScope;
 
         callHackage = name: version: self.callPackage (hackage2nix name version);
 
