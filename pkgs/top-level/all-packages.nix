@@ -4803,7 +4803,13 @@ in
     stdenv = stdenvAdapters.overrideCC pkgs.stdenv pkgs.clang_38;
   });
 
-  go = go_1_7;
+  go_1_8 = callPackage ../development/compilers/go/1.8.nix ({
+    inherit (darwin.apple_sdk.frameworks) Security Foundation;
+  } // stdenv.lib.optionalAttrs stdenv.isDarwin {
+    stdenv = stdenvAdapters.overrideCC pkgs.stdenv pkgs.clang_38;
+  });
+
+  go = go_1_8;
 
   go-repo-root = callPackage ../development/tools/go-repo-root { };
 
@@ -10107,7 +10113,11 @@ in
     go = go_1_7;
   };
 
-  buildGoPackage = buildGo17Package;
+  buildGo18Package = callPackage ../development/go-modules/generic {
+    go = go_1_8;
+  };
+
+  buildGoPackage = buildGo18Package;
 
   go2nix = callPackage ../development/tools/go2nix { };
 
