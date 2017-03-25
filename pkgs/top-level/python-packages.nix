@@ -9718,6 +9718,20 @@ in {
 
   };
 
+  hyperopt = buildPythonPackage rec {
+    name = "hyperopt-${version}";
+    version = "0.1";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/hyperopt/hyperopt/archive/${version}.tar.gz";
+      sha256 = "0c0z7a3p8iy4sms3vzp47wd58d997cl300pgpxqfnpmkmpmd0fj3";
+    };
+
+    buildInputs = with self; [ nose scipy numpy scikitlearn pymongo six networkx future ];
+
+    doCheck = false;
+  };
+
   py3status = buildPythonPackage rec {
     version = "3.0";
     name = "py3status-${version}";
