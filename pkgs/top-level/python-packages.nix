@@ -9727,7 +9727,7 @@ in {
       sha256 = "0c0z7a3p8iy4sms3vzp47wd58d997cl300pgpxqfnpmkmpmd0fj3";
     };
 
-    buildInputs = with self; [ nose scipy numpy scikitlearn pymongo six networkx future ];
+    propagatedBuildInputs = with self; [ nose scipy numpy scikitlearn pymongo six networkx future ];
 
     doCheck = false;
   };
