@@ -108,7 +108,7 @@ stdenv.mkDerivation rec {
   patches =
     [ ./remove-tools-1.8.patch
       ./cacert-1.8.patch
-      ./creds-test.patch
+      # ./creds-test.patch
       ./remove-test-pie-1.8.patch
 
       # This test checks for the wrong thing with recent tzdata. It's been fixed in master but the patch
