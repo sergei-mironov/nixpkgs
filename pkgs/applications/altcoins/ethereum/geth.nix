@@ -12,6 +12,11 @@ stdenv.mkDerivation rec {
     sha256 = "0zk3lrzb3lckj8ffk0mj4kmgrzviq70xnkhrzx01r1nxlk648g02";
   };
 
+  preBuild=''
+    export CGO_CFLAGS="-Os"
+    set -x
+  '';
+
   installPhase = ''
     mkdir -p "$out"
     cp -r build/bin "$out/bin"
