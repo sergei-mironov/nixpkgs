@@ -1,29 +1,22 @@
-{ stdenv, lib, go, fetchgit }:
+{ stdenv, lib, clang, buildGoPackage, fetchgit }:
 
-stdenv.mkDerivation rec {
+buildGoPackage rec {
   name = "go-ethereum-${version}";
-  version = "1.4.7";
+  version = "1.6.1";
   rev = "refs/tags/v${version}";
   goPackagePath = "github.com/ethereum/go-ethereum";
 
-  buildInputs = [ go ];
+  buildInputs = [ clang ];
 
   src = fetchgit {
     inherit rev;
     url = "https://${goPackagePath}";
-    sha256 = "19q518kxkvrr44cvsph4wv3lr6ivqsckz1f22r62932s3sq6gyd8";
+    sha256 = "02w5zjs40iznnph6c0kp34c84nrx3dkdarcpdyawkjpwjvxkw05g";
   };
 
-  buildPhase = ''
-    export GOROOT=$(mktemp -d --suffix=-goroot)
-    ln -sv ${go}/share/go/* $GOROOT
-    ln -svf ${go}/bin $GOROOT
-    make all
-  '';
-
-  installPhase = ''
-    mkdir -p $out/bin
-    cp -v build/bin/* $out/bin
+  preBuild = ''
+    # need to use the same C compiler that was used to build go
+    export CC="clang"
   '';
 
   meta = {
