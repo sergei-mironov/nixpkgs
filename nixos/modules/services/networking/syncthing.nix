@@ -470,7 +470,10 @@ in {
           STNORESTART = "yes";
           STNOUPGRADE = "yes";
           inherit (cfg) all_proxy;
-        } // config.networking.proxy.envVars;
+        } // config.networking.proxy.envVars
+          # We allow overwriting global all_proxy var with the syncthing.all_proxy
+          // (if cfg.all_proxy != "" then { inherit (cfg) all_proxy; } else {});
+
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Restart = "on-failure";
