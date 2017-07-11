@@ -2,7 +2,7 @@
 
 buildGoPackage rec {
   name = "go-ethereum-${version}";
-  version = "1.6.1";
+  version = "1.6.6";
   rev = "refs/tags/v${version}";
   goPackagePath = "github.com/ethereum/go-ethereum";
 
@@ -11,7 +11,7 @@ buildGoPackage rec {
   src = fetchgit {
     inherit rev;
     url = "https://${goPackagePath}";
-    sha256 = "02w5zjs40iznnph6c0kp34c84nrx3dkdarcpdyawkjpwjvxkw05g";
+    sha256 = "066s7fp9pbyq670xwnib4p7zaxs941r9kpvj2hm6bkr28yrpvp1a";
   };
 
   preBuild = ''
