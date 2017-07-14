@@ -8491,6 +8491,7 @@ with pkgs;
   libtool_1_5 = callPackage ../development/tools/misc/libtool { };
 
   libtool_2 = callPackage ../development/tools/misc/libtool/libtool2.nix { };
+  libtool_2_4_2 = callPackage ../development/tools/misc/libtool/libtool242.nix { };
 
   linuxkit = callPackage ../development/tools/misc/linuxkit { };
 
