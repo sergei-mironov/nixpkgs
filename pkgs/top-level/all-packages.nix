@@ -9727,6 +9727,7 @@ in
   libtool_1_5 = callPackage ../development/tools/misc/libtool { };
 
   libtool_2 = callPackage ../development/tools/misc/libtool/libtool2.nix { };
+  libtool_2_4_2 = callPackage ../development/tools/misc/libtool/libtool242.nix { };
 
   libwhich = callPackage ../development/tools/misc/libwhich { };
 
