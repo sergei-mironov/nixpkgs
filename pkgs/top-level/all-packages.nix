@@ -13438,6 +13438,8 @@ with pkgs;
 
   electrum = callPackage ../applications/misc/electrum { };
 
+  electron-cash = callPackage ../applications/misc/electron-cash { };
+
   electrum-dash = callPackage ../applications/misc/electrum-dash { };
 
   elinks = callPackage ../applications/networking/browsers/elinks { };
