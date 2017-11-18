@@ -2,11 +2,11 @@
 
 python2Packages.buildPythonApplication rec {
   name = "electron-${version}";
-  version = "2.9.3";
+  version = "2.9.4";
 
   src = fetchurl {
     url = "https://electroncash.org/downloads/${version}/win-linux/Electron-Cash-${version}.tar.gz";
-    sha256 = "0vdd2flid6irhv77igpfx1y39v6l27d9gz662wwpv0ysijzkyis0";
+    sha256 = "1y8mzwa6bb8zj4l92wm4c2icnr42wmhbfz6z5ymh356gwll914vh";
   };
 
   propagatedBuildInputs = with python2Packages; [
@@ -46,7 +46,7 @@ python2Packages.buildPythonApplication rec {
     mv $out/lib/python2.7/site-packages/nix/store"/"*/share $out
     rm -rf $out/lib/python2.7/site-packages/nix
 
-    substituteInPlace $out/share/applications/electron.desktop \
+    substituteInPlace $out/share/applications/electron-cash.desktop \
       --replace "Exec=electrum %u" "Exec=$out/bin/electrum %u"
   '';
 
@@ -56,7 +56,7 @@ python2Packages.buildPythonApplication rec {
   '';
 
   meta = with stdenv.lib; {
-    description = "A lightweight Bitcoin wallet";
+    description = "A lightweight Bitcoin-Cash wallet";
     longDescription = ''
       A Bitcoin-Cash client, forked from Electron wallet.
     '';
