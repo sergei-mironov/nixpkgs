@@ -20472,6 +20472,9 @@ EOF
   h11 = callPackage ../development/python-modules/h11 { };
 
   prometheus_client = callPackage ../development/python-modules/prometheus_client { };
+
+  gast = callPackage ../development/python-modules/gast { };
+
 });
 
 in fix' (extends overrides packages)
