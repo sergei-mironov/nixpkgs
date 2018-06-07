@@ -11,23 +11,8 @@ stdenv.mkDerivation rec {
     sha256 = "0vb0dg1r833gaa4jzlrxf9acn41az3xjs9alx7r9lkqwvkjyrdy2";
   };
 
-  outputs = [ "out" "layouts" ];
   buildInputs = [ qtbase qtdeclarative ];
   nativeBuildInputs = [ texlive cmake ninja ];
-
-  configurePhase = ''
-    cmake -GNinja
-  '';
-
-  buildPhase = ''
-    ninja -j$NIX_BUILD_CORES
-  '';
-
-  installPhase = ''
-    mkdir -p $out/bin
-    cp ./DwarfTherapist $out/bin/DwarfTherapist
-    cp -r ./share/memory_layouts $layouts
-  '';
 
   meta = with stdenv.lib; {
     description = "Tool to manage dwarves in in a running game of Dwarf Fortress";
