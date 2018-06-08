@@ -20475,6 +20475,8 @@ EOF
 
   gast = callPackage ../development/python-modules/gast { };
 
+  astunparse = callPackage ../development/python-modules/astunparse { };
+
 });
 
 in fix' (extends overrides packages)
