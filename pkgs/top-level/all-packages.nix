@@ -172,6 +172,20 @@ with pkgs;
     git = gitMinimal;
   };
 
+  cacert_localssl = stdenv.mkDerivation rec {
+    name = "ca-certificates-ex";
+    syscrt = /etc/ssl/certs/ca-certificates.crt;
+    buildCommand =  ''
+      mkdir -pv $out/etc/ssl/certs/
+      cat ${syscrt} > $out/etc/ssl/certs/ca-bundle.crt
+    '';
+  };
+
+  fetchgit_localssl = callPackage ../build-support/fetchgit {
+    git = gitMinimal;
+    cacert = cacert_localssl;
+  };
+
   fetchgitPrivate = callPackage ../build-support/fetchgit/private.nix { };
 
   fetchgitLocal = callPackage ../build-support/fetchgitlocal { };
@@ -20066,6 +20080,10 @@ with pkgs;
     cudaSupport = config.cudaSupport or false;
     cudnnSupport = cudaSupport;
     inherit (linuxPackages) nvidia_x11;
+  };
+
+  mxnet_localssl = mxnet.override {
+    fetchgit = fetchgit_localssl;
   };
 
   wxmaxima = callPackage ../applications/science/math/wxmaxima { wxGTK = wxGTK30; };
