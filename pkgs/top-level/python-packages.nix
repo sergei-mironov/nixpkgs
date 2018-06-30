@@ -2806,7 +2806,7 @@ in {
     inherit (pkgs.mxnet) name version src meta;
 
     buildInputs = [ pkgs.mxnet ];
-    propagatedBuildInputs = with self; [ requests numpy graphviz ];
+    propagatedBuildInputs = with self; [ requests numpy graphviz onnx ];
 
     LD_LIBRARY_PATH = makeLibraryPath [ pkgs.mxnet ];
 
