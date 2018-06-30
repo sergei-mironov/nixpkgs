@@ -2822,6 +2822,8 @@ in {
     '';
   };
 
+  mxnet_localssl = self.mxnet.override { mxnet = pkgs.mxnet_localssl; };
+
   portpicker = callPackage ../development/python-modules/portpicker { };
 
   pkginfo = buildPythonPackage rec {
