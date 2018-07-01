@@ -2800,6 +2800,8 @@ in {
 
   mpyq = callPackage ../development/python-modules/mpyq { };
 
+  onnx = callPackage ../development/python-modules/onnx { };
+
   mxnet = buildPythonPackage rec {
     inherit (pkgs.mxnet) name version src meta;
 
@@ -14584,6 +14586,17 @@ in {
   };
 
   typing = callPackage ../development/python-modules/typing { };
+
+  typing-extensions = buildPythonPackage rec {
+    pname = "typing-extensions";
+    version = "3.6.5";
+    propagatedBuildInputs = with self; [ typing ];
+    src = fetchPypi {
+      inherit version;
+      pname = "typing_extensions";
+      sha256 = "09xxykw8mk30r0g33r2gy5qlqw3sqj5vkp6h7nh0flp59hxqw2hw";
+    };
+  };
 
   typeguard = callPackage ../development/python-modules/typeguard { };
 
