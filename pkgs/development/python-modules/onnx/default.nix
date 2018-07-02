@@ -2,20 +2,20 @@
 , lib
 , fetchPypi
 , buildPythonPackage
+, pkgs_protobuf
 , protobuf
 , cmake
-, mypy
+, pytestrunner
 , numpy
 , typing-extensions
+, mypy
 }:
 
 buildPythonPackage rec {
   pname = "onnx";
   version = "1.2.2";
 
-  propagatedBuildInputs = [ protobuf ];
-
-  buildInputs = [ cmake numpy mypy typing-extensions ] ;
+  buildInputs = [ mypy protobuf pkgs_protobuf cmake numpy pytestrunner typing-extensions ] ;
   src = fetchPypi {
     inherit pname version;
     sha256 = "1kyj0ivxdbi86mkq78wwm8hbgvl24xn5w8r1fvb5grd8md36xl4g";

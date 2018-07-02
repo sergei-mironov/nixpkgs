@@ -2800,7 +2800,9 @@ in {
 
   mpyq = callPackage ../development/python-modules/mpyq { };
 
-  onnx = callPackage ../development/python-modules/onnx { };
+  onnx = callPackage ../development/python-modules/onnx {
+    pkgs_protobuf = pkgs.protobuf;
+  };
 
   mxnet = buildPythonPackage rec {
     inherit (pkgs.mxnet) name version src meta;
