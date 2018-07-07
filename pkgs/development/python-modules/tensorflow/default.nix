@@ -1,6 +1,6 @@
 { stdenv, buildBazelPackage, lib, fetchFromGitHub, fetchpatch, symlinkJoin
 , buildPythonPackage, isPy3k, pythonOlder, pythonAtLeast
-, which, swig, binutils, glibcLocales
+, which, swig, binutils, glibcLocales, writeShellScriptBin
 , python, jemalloc, openmpi
 , numpy, six, protobuf, tensorflow-tensorboard, backports_weakref, mock, enum34, absl-py
 , cudaSupport ? false, nvidia_x11 ? null, cudatoolkit ? null, cudnn ? null
@@ -31,7 +31,7 @@ let
 
   tfFeature = x: if x then "1" else "0";
 
-  version = "1.5.0";
+  version = "1.8.0";
 
   pkg = buildBazelPackage rec {
     name = "tensorflow-build-${version}";
@@ -40,35 +40,39 @@ let
       owner = "tensorflow";
       repo = "tensorflow";
       rev = "v${version}";
-      sha256 = "1c4djsaip901nasm7a6dsimr02bsv70a7b1g0kysb4n39qpdh22q";
+      sha256 = "18hydad4d61qg5ji7frcbmhb1l09s122n9hl7ic0nqq6j786acvv";
     };
 
-    patches = [
-      # Fix build with Bazel >= 0.10
-      (fetchpatch {
-        url = "https://github.com/tensorflow/tensorflow/commit/6fcfab770c2672e2250e0f5686b9545d99eb7b2b.patch";
-        sha256 = "0p61za1mx3a7gj1s5lsps16fcw18iwnvq2b46v1kyqfgq77a12vb";
-      })
-      (fetchpatch {
-        url = "https://github.com/tensorflow/tensorflow/commit/3f57956725b553d196974c9ad31badeb3eabf8bb.patch";
-        sha256 = "11dja5gqy0qw27sc9b6yw9r0lfk8dznb32vrqqfcnypk2qmv26va";
-      })
-    ];
+    # patches = [
+    #   # Fix build with Bazel >= 0.10
+    #   (fetchpatch {
+    #     url = "https://github.com/tensorflow/tensorflow/commit/6fcfab770c2672e2250e0f5686b9545d99eb7b2b.patch";
+    #     sha256 = "0p61za1mx3a7gj1s5lsps16fcw18iwnvq2b46v1kyqfgq77a12vb";
+    #   })
+    #   (fetchpatch {
+    #     url = "https://github.com/tensorflow/tensorflow/commit/3f57956725b553d196974c9ad31badeb3eabf8bb.patch";
+    #     sha256 = "11dja5gqy0qw27sc9b6yw9r0lfk8dznb32vrqqfcnypk2qmv26va";
+    #   })
+    # ];
 
     nativeBuildInputs = [ swig which ];
 
     buildInputs = [ python jemalloc openmpi glibcLocales numpy ]
       ++ lib.optionals cudaSupport [ cudatoolkit cudnn nvidia_x11 ];
 
+    pylib = (python.withPackages (ps: with ps; [ numpy ]));
+
     preConfigure = ''
       patchShebangs configure
 
-      export PYTHON_BIN_PATH="${python.interpreter}"
-      export PYTHON_LIB_PATH="$NIX_BUILD_TOP/site-packages"
+      export PYTHON_BIN_PATH="${pylib}/bin/python"
+      #export PYTHON_LIB_PATH="$NIX_BUILD_TOP/site-packages"
+      export PYTHON_LIB_PATH="${pylib}/lib/python3.6/site-packages"
       export TF_NEED_GCP=1
       export TF_NEED_HDFS=1
       export TF_ENABLE_XLA=${tfFeature xlaSupport}
       export CC_OPT_FLAGS=" "
+      export hardeningDisable="all";
       # https://github.com/tensorflow/tensorflow/issues/14454
       export TF_NEED_MPI=${tfFeature cudaSupport}
       export TF_NEED_CUDA=${tfFeature cudaSupport}
@@ -88,6 +92,11 @@ let
 
     hardeningDisable = [ "all" ];
 
+    # gccnh = writeShellScriptBin "gcc" ''
+    #   exec "${stdenv.cc}/bin/gcc" "''${extraFlagsArray[@]}" "$@" -U_FORTIFY_SOURCE
+    # '';
+
+
     bazelFlags = [ "--config=opt" ]
                  ++ lib.optional sse42Support "--copt=-msse4.2"
                  ++ lib.optional avx2Support "--copt=-mavx2"
@@ -101,7 +110,7 @@ let
         rm -rf $bazelOut/external/{bazel_tools,\@bazel_tools.marker,local_*,\@local_*}
       '';
 
-      sha256 = "1nc98aqrp14q7llypcwaa0kdn9xi7r0p1mnd3vmmn1m299py33ca";
+      sha256 = "1fczzfhcg1va18rdmj9zgc11ah619pl8bny6hw51c51kbxr9fskc";
     };
 
     buildAttrs = {

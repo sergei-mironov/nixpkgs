@@ -7,7 +7,7 @@ let
   fBuildAttrs = fArgs // buildAttrs;
   fFetchAttrs = fArgs // removeAttrs fetchAttrs [ "sha256" ];
 
-in stdenv.mkDerivation (fBuildAttrs // {
+in stdenv.mkDerivation (fBuildAttrs // rec {
   inherit name bazelFlags bazelTarget;
 
   deps = stdenv.mkDerivation (fFetchAttrs // {
@@ -15,6 +15,8 @@ in stdenv.mkDerivation (fBuildAttrs // {
     inherit bazelFlags bazelTarget;
 
     nativeBuildInputs = fFetchAttrs.nativeBuildInputs or [] ++ [ bazel ];
+
+    dontAddPrefix = true;
 
     preHook = fFetchAttrs.preHook or "" + ''
       export bazelOut="$NIX_BUILD_TOP/output"
@@ -52,7 +54,9 @@ in stdenv.mkDerivation (fBuildAttrs // {
     outputHash = fetchAttrs.sha256;
   });
 
-  nativeBuildInputs = fBuildAttrs.nativeBuildInputs or [] ++ [ (bazel.override { enableNixHacks = true; }) ];
+  dontAddPrefix = true;
+
+  nativeBuildInputs = fBuildAttrs.nativeBuildInputs or [] ++ [ (bazel.override { enableNixHacks = false; }) ];
 
   preHook = fBuildAttrs.preHook or "" + ''
     export bazelOut="$NIX_BUILD_TOP/output"
@@ -68,10 +72,29 @@ in stdenv.mkDerivation (fBuildAttrs // {
     done
   '' + fBuildAttrs.preConfigure or "";
 
+  gccnh = stdenv.mkDerivation {
+    name = "gccnh";
+    buildCommand = ''
+      . $stdenv/setup
+      mkdir -p $out/bin
+
+      for prog in as  c++  cc  cpp  g++  ld  ld.bfd  ld.gold ; do
+        ln -s ${stdenv.cc}/bin/$prog $out/bin/$prog
+      done
+
+      cat >$out/bin/gcc <<"EOF"
+      #!/bin/sh
+      export hardeningDisable=all
+      exec "${stdenv.cc}/bin/gcc" "''${extraFlagsArray[@]}" "$@"
+      EOF
+      chmod +x $out/bin/gcc
+      '';
+  };
+
   buildPhase = fBuildAttrs.buildPhase or ''
     runHook preBuild
 
-    bazel --output_base="$bazelOut" build -j $NIX_BUILD_CORES $bazelFlags $bazelTarget
+    CC=${gccnh}/bin/gcc bazel --output_base="$bazelOut" build --verbose_failures  -j $NIX_BUILD_CORES $bazelFlags $bazelTarget
 
     runHook postBuild
   '';

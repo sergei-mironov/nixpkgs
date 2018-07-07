@@ -19907,6 +19907,15 @@ EOF
       cudnn = pkgs.cudnn_cudatoolkit9;
     };
 
+  tensorflow_noavx =
+    callPackage ../development/python-modules/tensorflow rec {
+      cudaSupport = pkgs.config.cudaSupport or false;
+      inherit (pkgs.linuxPackages) nvidia_x11;
+      cudatoolkit = pkgs.cudatoolkit9;
+      cudnn = pkgs.cudnn_cudatoolkit9;
+      avx2Support = false;
+    };
+
   tensorflowWithoutCuda = self.tensorflow.override {
     cudaSupport = false;
   };
