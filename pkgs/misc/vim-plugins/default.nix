@@ -771,11 +771,11 @@ rec {
   };
 
   ctrlp-vim = buildVimPluginFrom2Nix { # created by nix#NixDerivation
-    name = "ctrlp-vim-2018-02-10";
+    name = "ctrlp-vim-2018-06-28";
     src = fetchgit {
       url = "https://github.com/ctrlpvim/ctrlp.vim";
-      rev = "35c9b961c916e4370f97cb74a0ba57435a3dbc25";
-      sha256 = "08g1w7lfxpp0b175fkyyb8njpz7jwysfba0s20873f2frj6c77rc";
+      rev = "43cc73b8e7d4ab45f17118573eb81fd45704b989";
+      sha256 = "16jn9n6vavwiwh6l2av2i3livan72saaz0d0v8vmznrrs2ngi1gk";
     };
     dependencies = [];
 
