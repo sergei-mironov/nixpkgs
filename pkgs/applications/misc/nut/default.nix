@@ -61,7 +61,15 @@ stdenv.mkDerivation rec {
       "--with-systemdshutdowndir=$(out)/lib/systemd/system-shutdown"
       "--with-systemdtmpfilesdir=$(out)/lib/tmpfiles.d"
       "--with-udev-dir=$(out)/etc/udev"
+      "--sysconfdir=/etc"
     ];
+
+  patchPhase = ''
+    sed -i 's/dist_sysconf_DATA = $(SECFILES) $(PUBFILES) $(CGI_INSTALL)/dist_sysconf_DATA =/' conf/Makefile.am
+    sed -i 's/dist_sysconf_DATA = $(SECFILES) $(PUBFILES) $(CGI_INSTALL)/dist_sysconf_DATA =/' conf/Makefile.in
+    sed -i 's/nodist_sysconf_DATA = upssched.conf.sample upsmon.conf.sample/nodist_sysconf_DATA =/' conf/Makefile.am
+    sed -i 's/nodist_sysconf_DATA = upssched.conf.sample upsmon.conf.sample/nodist_sysconf_DATA =/' conf/Makefile.in
+  '';
 
   enableParallelBuilding = true;
 
