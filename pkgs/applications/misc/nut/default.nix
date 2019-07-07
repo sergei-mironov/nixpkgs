@@ -32,7 +32,15 @@ stdenv.mkDerivation rec {
       "--without-hal"
       "--with-systemdsystemunitdir=$(out)/etc/systemd/system"
       "--with-udev-dir=$(out)/etc/udev"
+      "--sysconfdir=/etc"
     ];
+
+  patchPhase = ''
+    sed -i 's/dist_sysconf_DATA = $(SECFILES) $(PUBFILES) $(CGI_INSTALL)/dist_sysconf_DATA =/' conf/Makefile.am
+    sed -i 's/dist_sysconf_DATA = $(SECFILES) $(PUBFILES) $(CGI_INSTALL)/dist_sysconf_DATA =/' conf/Makefile.in
+    sed -i 's/nodist_sysconf_DATA = upssched.conf.sample upsmon.conf.sample/nodist_sysconf_DATA =/' conf/Makefile.am
+    sed -i 's/nodist_sysconf_DATA = upssched.conf.sample upsmon.conf.sample/nodist_sysconf_DATA =/' conf/Makefile.in
+  '';
 
   enableParallelBuilding = true;
 
