@@ -7,8 +7,8 @@
 , AVFoundation ? null }:
 
 let
-  version = "1.16.3";
-  rev = "v${version}";
+  version = "master";
+  rev = "bd339d2cb64eb32528e081d916db275c2ec7454b";
 
 in mkDerivation {
   pname = "qtox";
@@ -17,7 +17,7 @@ in mkDerivation {
   src = fetchFromGitHub {
     owner  = "qTox";
     repo   = "qTox";
-    sha256 = "0qd4nvbrjnnfnk8ghsxq3cd1n1qf1ck5zg6ib11ij2pg03s146pa";
+    sha256 = "0qi47z5sawhwam40y061i0sqkvb41x2w66gbgysg585zg7x9h0as";
     inherit rev;
   };
 
