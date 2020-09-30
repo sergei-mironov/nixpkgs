@@ -38,6 +38,7 @@ buildPythonPackage rec {
     # rope is technically a dependency, but we don't add it by default since we
     # already have jedi, which is the preferred option
     rope
+    flake8
   ];
 
   dontUseSetuptoolsCheck = true;
@@ -59,7 +60,7 @@ buildPythonPackage rec {
   #   HOME=$TEMPDIR pytest -k "not test_pyqt_completion and not 
   # '';
 
-  propagatedBuildInputs = [ setuptools jedi pluggy future python-jsonrpc-server flake8 ujson ]
+  propagatedBuildInputs = [ setuptools jedi pluggy future python-jsonrpc-server ujson ]
     ++ stdenv.lib.optional (withProvider "autopep8") autopep8
     ++ stdenv.lib.optional (withProvider "mccabe") mccabe
     ++ stdenv.lib.optional (withProvider "pycodestyle") pycodestyle
