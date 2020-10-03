@@ -6,7 +6,7 @@
 }:
 
 let
-  common = {version, sha256, externals}: stdenv.mkDerivation {
+  common = {version, sha256, externals, extra_install ? ""}: stdenv.mkDerivation {
     inherit version;
     pname = "asterisk";
 
@@ -27,6 +27,7 @@ let
     # Disable MD5 verification for pjsip
     postPatch = ''
       sed -i 's|$(verify_tarball)|true|' third-party/pjproject/Makefile
+      sed -i 's|--prefix=/opt/pjproject|--prefix=''${out}|' third-party/pjproject/Makefile.rules
     '';
 
     src = fetchurl {
@@ -68,6 +69,7 @@ let
     postInstall = ''
       # Install sample configuration files for this version of Asterisk
       make samples
+      ${extra_install}
     '';
 
     meta = with stdenv.lib; {
@@ -86,6 +88,11 @@ let
   pjproject_2_8 = fetchurl {
     url = https://www.pjsip.org/release/2.8/pjproject-2.8.tar.bz2;
     sha256 = "0ybg0113rp3fk49rm2v0pcgqb28h3dv1pdy9594w2ggiz7bhngah";
+  };
+
+  pjproject_2_10 = fetchurl {
+    url = https://raw.githubusercontent.com/asterisk/third-party/master/pjproject/2.10/pjproject-2.10.tar.bz2;
+    sha256 = "sha256:14qmddinm4bv51rl0wwg5133r64x5bd6inwbx27ahb2n0151m2if";
   };
 
   mp3-202 = fetchsvn {
@@ -130,6 +137,16 @@ in rec {
       "externals_cache/pjproject-2.8.tar.bz2" = pjproject_2_8;
       "addons/mp3" = mp3-202;
     };
+  };
+
+  asterisk_17 = common {
+    version = "17.6.0";
+    sha256 = "sha256:0ca41aghizri6fzwbi4xcmps3gw3y182h82pw0m3yjgm15cdkx9r";
+    externals = {
+      "externals_cache/pjproject-2.10.tar.bz2" = pjproject_2_10;
+      "addons/mp3" = mp3-202;
+    };
+    extra_install = "make install-headers";
   };
 
   #asterisk-git = common {
