@@ -12,8 +12,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "KonradIT";
     repo = "gopro-linux";
-    rev = version;
-    sha256 = "0sb9vpiadrq8g4ag828h8mvq01fg0306j0wjwkxdmwfqync1128l";
+    rev = "9eecde65967bcbf4246a8489beb84c5ee3da4879";
+    sha256 = "sha256:1c42nkxjwyzl00w4sj9pzvccsn7w7vn4ixmirdbq5nzqhyhv3pcc";
   };
 
   nativeBuildInputs = [ makeWrapper ];
