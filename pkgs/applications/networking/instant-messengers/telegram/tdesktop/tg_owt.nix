@@ -1,9 +1,15 @@
-{ lib, stdenv, fetchFromGitHub, fetchpatch
+{ lib, stdenv, fetchFromGitHub
 , pkg-config, cmake, ninja, yasm
 , libjpeg, openssl, libopus, ffmpeg, alsa-lib, libpulseaudio, protobuf
-, xorg, libXtst, libXcomposite, libXdamage, libXext, libXrender, libXrandr
+# HEAD
+# , xorg, libXtst, libXcomposite, libXdamage, libXext, libXrender, libXrandr
+# , glib, abseil-cpp, pcre, util-linuxMinimal, libselinux, libsepol, pipewire
+# , libXi
+# =======
+, openh264, usrsctp, libevent, libvpx
+, libX11, libXtst, libXcomposite, libXdamage, libXext, libXrender, libXrandr, libXi
 , glib, abseil-cpp, pcre, util-linuxMinimal, libselinux, libsepol, pipewire
-, libXi
+# f6c5598f54e (tdesktop: Cleanup/refactor)
 }:
 
 stdenv.mkDerivation {
