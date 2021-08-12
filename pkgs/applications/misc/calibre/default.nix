@@ -34,6 +34,7 @@ mkDerivation rec {
   };
 
   patches = [
+    ./fix_qt.patch
     # Patches from Debian that:
     # - disable plugin installation (very insecure)
     ./disable_plugins.patch
