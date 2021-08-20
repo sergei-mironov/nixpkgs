@@ -2072,6 +2072,12 @@
       fingerprint = "4AC4 A28D 7208 FC6F 2B51  5EA9 D126 B13A B555 E16F";
     }];
   };
+  avieth = {
+    email = "aovieth@gmail.com";
+    github = "avieth";
+    name = "Alexander Vieth";
+    githubId = 1420272;
+  };
   avitex = {
     email = "theavitex@gmail.com";
     github = "avitex";
