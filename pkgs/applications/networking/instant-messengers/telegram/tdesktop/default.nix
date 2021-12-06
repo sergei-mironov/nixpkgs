@@ -2,11 +2,11 @@
 , pkg-config, cmake, ninja, python3, wrapGAppsHook, wrapQtAppsHook, removeReferencesTo
 , qtbase, qtimageformats, gtk3, libsForQt5, enchant2, lz4, xxHash
 , dee, ffmpeg, openalSoft, minizip, libopus, alsaLib, libpulseaudio, range-v3
-, tl-expected, hunspell, glibmm, webkitgtk, libtgvoip
+, tl-expected, hunspell, glibmm, webkitgtk
 # Transitive dependencies:
 , pcre, xorg, util-linux, libselinux, libsepol, epoxy
 , at-spi2-core, libXtst, libthai, libdatrie
-, xdg-utils, libsysprof-capture, libpsl, brotli
+, xdg-utils
 }:
 
 with lib;
@@ -59,10 +59,10 @@ in mkDerivation rec {
     qtbase qtimageformats gtk3 libsForQt5.kwayland libsForQt5.libdbusmenu enchant2 lz4 xxHash
     dee ffmpeg openalSoft minizip libopus alsaLib libpulseaudio range-v3
     tl-expected hunspell glibmm webkitgtk
-    tg_owt libtgvoip
+    tg_owt
     # Transitive dependencies:
     pcre xorg.libpthreadstubs xorg.libXdmcp util-linux libselinux libsepol epoxy
-    at-spi2-core libXtst libthai libdatrie libsysprof-capture libpsl brotli
+    at-spi2-core libXtst libthai libdatrie
   ];
 
   cmakeFlags = [
