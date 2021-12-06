@@ -6,7 +6,7 @@
 # , glib, abseil-cpp, pcre, util-linuxMinimal, libselinux, libsepol, pipewire
 # , libXi
 # =======
-, openh264, usrsctp, libevent, libvpx
+, xorg, openh264, usrsctp, libevent, libvpx
 , libX11, libXtst, libXcomposite, libXdamage, libXext, libXrender, libXrandr, libXi
 , glib, abseil-cpp, pcre, util-linuxMinimal, libselinux, libsepol, pipewire
 # f6c5598f54e (tdesktop: Cleanup/refactor)

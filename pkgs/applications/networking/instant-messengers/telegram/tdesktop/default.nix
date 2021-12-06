@@ -47,6 +47,7 @@
 , brotli
 , microsoft_gsl
 , rlottie
+, grpc
 }:
 
 # Main reference:
@@ -99,6 +100,7 @@ mkDerivation rec {
     wrapGAppsHook
     wrapQtAppsHook
     extra-cmake-modules
+    grpc
   ];
 
   buildInputs = [
