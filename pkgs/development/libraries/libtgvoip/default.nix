@@ -1,6 +1,6 @@
 { stdenv, lib, fetchFromGitHub, fetchpatch
 , pkg-config, autoreconfHook
-, openssl, libopus, alsaLib, libpulseaudio
+, openssl, libopus, alsa-lib, libpulseaudio
 }:
 
 with lib;

@@ -19969,6 +19969,7 @@ in
   alsa-firmware = callPackage ../os-specific/linux/alsa-firmware { };
 
   alsaLib = callPackage ../os-specific/linux/alsa-lib { };
+  alsa-lib = alsaLib;
 
   alsaPlugins = callPackage ../os-specific/linux/alsa-plugins { };
 
@@ -26701,7 +26702,9 @@ in
 
   taskopen = callPackage ../applications/misc/taskopen { };
 
-  tdesktop = qt5.callPackage ../applications/networking/instant-messengers/telegram/tdesktop { };
+  tdesktop = libsForQt5.callPackage ../applications/networking/instant-messengers/telegram/tdesktop {
+    inherit (xorg) libpthreadstubs libXdmcp;
+  };
 
   tektoncd-cli = callPackage ../applications/networking/cluster/tektoncd-cli { };
 
