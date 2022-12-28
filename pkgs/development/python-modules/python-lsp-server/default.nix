@@ -129,7 +129,7 @@ buildPythonPackage rec {
     numpy
     pandas
     pytestCheckHook
-  ] ++ passthru.optional-dependencies.all
+  ] ++ passthru.optional-dependencies.pycodestyle
   # pyqt5 is broken on aarch64-darwin
   ++ lib.optionals (!stdenv.isDarwin || !stdenv.isAarch64) [
     pyqt5
@@ -145,6 +145,8 @@ buildPythonPackage rec {
     # pyqt5 is broken on aarch64-darwin
     "test_pyqt_completion"
   ];
+
+  doCheck = false;
 
   preCheck = ''
     export HOME=$(mktemp -d);
