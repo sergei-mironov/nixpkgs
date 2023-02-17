@@ -14,6 +14,7 @@
 , ffmpegSupport ? true
 , rtmpSupport ? true
 , withAlias ? false # Provides bin/youtube-dl for backcompat
+, update-python-libraries
 }:
 
 buildPythonPackage rec {
@@ -60,6 +61,8 @@ buildPythonPackage rec {
   postInstall = lib.optionalString withAlias ''
     ln -s "$out/bin/yt-dlp" "$out/bin/youtube-dl"
   '';
+
+  passthru.updateScript = [ update-python-libraries (toString ./.) ];
 
   meta = with lib; {
     homepage = "https://github.com/yt-dlp/yt-dlp/";
