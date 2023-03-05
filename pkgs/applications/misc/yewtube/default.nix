@@ -2,13 +2,16 @@
 
 python3Packages.buildPythonApplication rec {
   pname = "yewtube";
-  version = "2.9.2";
+  version = "2.9.4.99999";
 
   src = fetchFromGitHub {
-    owner = "iamtalhaasghar";
+    owner = "mps-youtube";
     repo = "yewtube";
-    rev = "refs/tags/v${version}";
-    hash = "sha256-5+0OaoUan9IFEqtMvpvtkfpd7IbFJhG52oROER5TY20=";
+    # rev = "refs/tags/v${version}";
+    rev = "a20be95";
+    # hash = "sha256-5+0OaoUan9IFEqtMvpvtkfpd7IbFJhG52oROER5TY20=";
+    # hash = "sha256-kj6ton9N+GhuPyG551GSqyH+amJoqZL+xAu9+PvItKM=";
+    hash = "sha256-pxdlo0rVFAzMtmFoIFhO9lJ3huuiy/ZthCzl/AJa4I0=";
   };
 
   postPatch = ''
