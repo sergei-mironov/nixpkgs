@@ -1,0 +1,12 @@
+diff -ruN ./result/rtkit-daemon.service.in ./rtkit/rtkit-daemon.service.in
+--- ./rtkit-daemon.service.in	1970-01-01 04:00:01.000000000 +0400
++++ ./rtkit-daemon.service.in	2023-04-30 16:24:13.800639661 +0400
+@@ -19,7 +19,7 @@
+ Description=RealtimeKit Scheduling Policy Service
+ 
+ [Service]
+-ExecStart=@LIBEXECDIR@/rtkit-daemon
++ExecStart=@LIBEXECDIR@/rtkit-daemon --no-drop-privileges
+ Type=dbus
+ BusName=org.freedesktop.RealtimeKit1
+ NotifyAccess=main
