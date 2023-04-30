@@ -32,6 +32,8 @@ stdenv.mkDerivation rec {
       url = "https://github.com/heftig/rtkit/pull/33/commits/ad649ee491ed1a41537774ad11564a208e598a09.patch";
       sha256 = "sha256-p+MdJVMv58rFd1uc1UFKtq83RquDSFZ3M6YfaBU12UU=";
     })
+
+    ./rtkit-no-drop-privileges.patch
   ];
 
   nativeBuildInputs = [ meson ninja pkg-config unixtools.xxd ];
