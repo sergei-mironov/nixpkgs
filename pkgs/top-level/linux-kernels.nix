@@ -374,6 +374,8 @@ in {
 
     it87 = callPackage ../os-specific/linux/it87 {};
 
+    librem-ec-acpi-dkms = callPackage ../os-specific/linux/purism/librem-ec-acpi-dkms {};
+
     asus-ec-sensors = callPackage ../os-specific/linux/asus-ec-sensors {};
 
     asus-wmi-sensors = callPackage ../os-specific/linux/asus-wmi-sensors {};
