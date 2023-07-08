@@ -426,6 +426,8 @@ in
           else
             null;
 
+        librem-ec-acpi-dkms = callPackage ../os-specific/linux/purism/librem-ec-acpi-dkms {};
+
         ipu6-drivers = callPackage ../os-specific/linux/ipu6-drivers { };
 
         ivsc-driver = callPackage ../os-specific/linux/ivsc-driver { };
