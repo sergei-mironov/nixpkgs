@@ -107,5 +107,10 @@
         */
         readOnlyPkgs = ./nixos/modules/misc/nixpkgs/read-only.nix;
       };
+
+      configurationManual = (import ./nixos/release.nix {
+          nixpkgs = self;
+        }).nixos-configuration-reference-manpage.x86_64-linux;
+
     };
 }
