@@ -13,7 +13,7 @@
 
 buildPythonPackage rec {
   pname = "telethon";
-  version = "1.26.1";
+  version = "1.36.0";
   format = "pyproject";
   disabled = pythonOlder "3.5";
 
@@ -21,7 +21,8 @@ buildPythonPackage rec {
     owner = "LonamiWebs";
     repo = "Telethon";
     rev = "refs/tags/v${version}";
-    hash = "sha256-RxnC+PVSnLeCZ1xap6n6CjpeA8Ig6oLGiB0LDxqUmsA=";
+    # hash = "sha256-RxnC+PVSnLeCZ1xap6n6CjpeA8Ig6oLGiB0LDxqUmsA=";
+    hash = "sha256-uWpGlbJyCFqHsBgFsS1nsdSwaaOFoBc93wcSFWn8Twg=";
   };
 
   patchPhase = ''
@@ -39,6 +40,11 @@ buildPythonPackage rec {
   nativeCheckInputs = [
     pytest-asyncio
     pytestCheckHook
+  ];
+
+  disabledTests = [
+    # Disable all benchmark tests
+    "test_private_get_extension"
   ];
 
   pytestFlagsArray = [ "tests/telethon" ];
