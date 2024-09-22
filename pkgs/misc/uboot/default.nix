@@ -525,6 +525,11 @@ in {
     defconfig = "rpi_4_defconfig";
     extraMeta.platforms = ["aarch64-linux"];
     filesToInstall = ["u-boot.bin"];
+    extraConfig = ''
+      CONFIG_BOOT_RETRY=y
+      CONFIG_BOOT_RETRY_TIME=30
+      CONFIG_RESET_TO_RETRY=y
+    '';
   };
 
   ubootRaspberryPiZero = buildUBoot {
