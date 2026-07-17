@@ -5,7 +5,7 @@
   gdk-pixbuf,
   glib,
   freetype,
-  libgepub,
+  # libgepub,
   libgsf,
   libheif,
   libjxl,
@@ -32,7 +32,7 @@ mkXfceDerivation {
     gdk-pixbuf
     glib
     gst_all_1.gst-plugins-base
-    libgepub # optional EPUB thumbnailer support
+    # libgepub # optional EPUB thumbnailer support
     libgsf
     poppler # technically the glib binding
   ];
